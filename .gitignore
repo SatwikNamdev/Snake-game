@@ -1,52 +1,190 @@
-# Prerequisites
-*.d
+#include <stdio.h>
+#include <time.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <conio.h>
+void print(void);
+int start();
+void welcome_animation();
+void loadingbar();
+int main()
+{
+    int a;
+    // welcome_animation();
+    a = start();
+    if (a == 1)
+    {
+        system("cls");
+        // loadingbar();
+        print();
+    }
+    return 0;
+}
+void print()
+{
+    char c = 77;
+    fflush(stdin);
+    int over=0;
+    char str[] = "___________________________________________\n|---*                                      |\n|                                          |\n|                                          |\n|                                          |\n|                                          |\n|                                          |\n|                                          |\n|                                          |\n|                                          |\n|                                          |\n|                                          |\n|__________________________________________|";
+    int *arr=(int*)malloc(4);
+    arr[0]=45;  
+    arr[1]=46;
+    arr[2]=47;
+    arr[3]=48;
+    for(int head=48,length=3,copy=0;1;)
+    {
+    printf("%s", str);
+    switch(c)
+    {
+        case 72:        //up
+        {
+        }       
+        case 80:        //down
+        {
+        copy=arr[0];
+        str[copy]=' ';
+        for(int v=length-1,k=length;v>=0;v--)
+        {
+            arr[v]=arr[k];
+        }
+        arr[length]=head+45;
 
-# Object files
-*.o
-*.ko
-*.obj
-*.elf
+        if(str[head]!='|'&&str[head+45]!='_')
+        {
+            for(int o=0;o<length;o++)
+                str[arr[o]]='|';
 
-# Linker output
-*.ilk
-*.map
-*.exp
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
-
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
-
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
-
-# Debug files
-*.dSYM/
-*.su
-*.idb
-*.pdb
-
-# Kernel Module Compile Results
-*.mod*
-*.cmd
-.tmp_versions/
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
+             str[arr[length]]='*';
+        }
+        else
+        {
+            printf("\nGame over try again:)");
+            over=1;
+        }   
+           head+=45;
+            break;
+            
+        }
+        case 75:        //left
+        {
+        copy=arr[0];
+        str[copy]=' ';
+        for(int v=length-1,k=length;v>=0;v--)
+        {
+            arr[v]=arr[k];
+        }
+        arr[length]=head-1;
+             if(str[head-1]!='|'&&str[head-1]!='-')
+            {
+            str[head-1]='*';           
+            for(int x=0,q=head-1;x<length;x++,q++)
+            {
+                str[arr[x]]='-';
+            } 
+            head--;           
+            }
+            else
+            {
+                printf("\nGame over try again:)");
+                over=1;
+            }
+            break;
+        }
+        case 77:        //right
+        {
+        //     copy=arr[0];
+        // str[copy]=' ';
+        // for(int v=length-1,k=length;v>=0;v--)
+        // {
+        //     arr[v]=arr[k];
+        // }
+        // arr[length]=head+45;
+            if(str[head+1]!='|'&&str[head+1]!='-')
+            {
+            str[head+1]='*';           
+            for(int x=0,q=head;x<length;x++,q--)
+            {
+                str[q]='-';
+                str[q-1]=' ';
+            } 
+            head++;           
+            }
+            else
+            {
+                printf("\nGame over try again:)");
+                over=1;
+            }
+        }
+    }
+     if(over!=1)
+    {
+    c = _getch();
+    c = _getch();
+    }
+    else
+    break;
+    system("cls");
+  }
+}
+int start()
+{
+    printf("\nEnter \"1\" to start:");
+    int s;
+    scanf("%d", &s);
+    return s;
+}
+void welcome_animation()
+{
+    struct timespec delay;
+    delay.tv_sec = 0;
+    delay.tv_nsec = 49999999;
+    char str[] = "WELCOME TO THE SNAKE GAME", c;
+    for (int v = 0, w = 0; str[v]; v++)
+    {
+        if (str[v] >= 'A' && str[v] <= 'Z')
+            c = 'A';
+        else if (str[v] >= 'a' && str[v] <= 'z')
+            c = 'a';
+        else
+            c = ' ';
+        for (; c <= str[v]; c++)
+        {
+            nanosleep(&delay, NULL);
+            printf("%c\b", c);
+        }
+        printf("%c", c - 1);
+    }
+}
+void loadingbar()
+{
+    struct timespec delay;
+    struct timespec del;
+    delay.tv_sec = 0;
+    delay.tv_nsec = 499999999;
+    del.tv_sec = 0;
+    del.tv_nsec = 49999999;
+    char str[43] = "->";
+    for(int v = 2; v != 40; v++)
+    {
+        for (int a = 0; a < 40; a++)
+            printf("_");
+        printf("\n");
+        str[v] = '>';
+        for (int x = v - 5; x < v; x++)
+            str[x] o= '-';
+        printf("%s", str);
+        for (int a = 0; a < (40 - v) - 1; a++)
+            printf(" ");
+        printf("|\n");
+        for (int a = 0; a < 40; a++)
+            printf("-");
+        printf("\nLOADING");
+        for (int t = 0; t < 3; t++)
+        {
+            printf(".");
+            nanosleep(&del, NULL);
+        }
+        nanosleep(&delay, NULL);
+        system("cls");
+    }
+}
